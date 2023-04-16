@@ -4,7 +4,7 @@ public class InterpolationSearch {
     private int low = 0;
     private int[] inputArray = new GenerateInputArray().getInputArray();
     private int high = inputArray.length - 1;
-    private int k = 50; // Target value
+    private int k = 65; // Target value
 
     // TODO - I observed that when the target value does not exist in the set the interpolation search tries many positions,
     //          many of which appear to be the same position, sometimes going back and forth in direction before giving up.

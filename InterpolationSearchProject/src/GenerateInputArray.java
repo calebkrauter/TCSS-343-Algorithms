@@ -10,6 +10,7 @@ public class GenerateInputArray {
     private Random random;
 
     // TODO make sure bug doesn't happen where 0 is printed after a larger number
+    // TODO understand why the same pos is tried multiple times. Maybe a rounding error in the formula for position?
 
     public GenerateInputArray() {
         random = new Random();
@@ -44,11 +45,11 @@ public class GenerateInputArray {
                 inputArray[i] = element;
             }
             // TODO fix bug, why can't origin be min and bound be max? Doesn't work.
-            // THIS COMMENTED block might fix the bug! Not certain.
-//            if (i > 0 && prevElement > inputArray[i] && inputArray[i] == 0) {
-//
-//                inputArray[i] = element*2 + prevElement + 1;
-//            }
+            // THIS block might fix the bug! Not certain. It appears to work now.
+            if (i > 0 && prevElement > inputArray[i] && inputArray[i] == 0) {
+
+                inputArray[i] = element*2 + prevElement + 1;
+            }
             prevElement = element;
         }
     }
