@@ -13,7 +13,7 @@ public class InterpolationSearch {
     //          ruining the order.
 
     public InterpolationSearch() {
-        generateInputArray = new GenerateInputArray();
+        System.out.println();
         interpolationSearch(k, low, high);
     }
 
