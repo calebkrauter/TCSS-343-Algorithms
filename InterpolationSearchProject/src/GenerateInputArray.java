@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class GenerateInputArray {
@@ -9,13 +10,14 @@ public class GenerateInputArray {
     private int max = 100;
     private Random random;
 
-    // TODO make sure bug doesn't happen where 0 is printed after a larger number
     // TODO understand why the same pos is tried multiple times. Maybe a rounding error in the formula for position?
 
     public GenerateInputArray() {
         random = new Random();
         inputArray = new int[generateArraySize()];
         fillArray(inputArray);
+        // The input is not always fully sorted so I am doing a call on sort to make sure it is sorted
+        Arrays.sort(inputArray);
         printArray();
 //        new InterpolationSearch();
 
@@ -28,24 +30,27 @@ public class GenerateInputArray {
     }
 
     private void fillArray(int[] inputArray) {
-       // Generate value between min = prevVal and max, if value is less than value at prevIndex,min = min + prevVal + 1
-
         int prevElement = 0;
         min = 0;
         max = 10;
         for (int i = 0; i < inputArray.length ; i++) {
             element = random.nextInt(0, 10);
-
+// I have noticed a bug where some smaller values filled the array after the previous larger values.
+            // This did not stop the algorithm from finding k.
             if (element > prevElement) {
                 inputArray[i] = element;
             } else if (prevElement > element) {
-                element = element + prevElement + 1;
+//                System.out.println("prev " + prevElement);
+//                System.out.println("element " + element);
                 min = element;
+                element = element*2 + prevElement + 1;
+//                System.out.println("NEW element " + element);
+
                 max = element*2 + prevElement + 1;
                 inputArray[i] = element;
             }
             // TODO fix bug, why can't origin be min and bound be max? Doesn't work.
-            // THIS block might fix the bug! Not certain. It appears to work now.
+            // THIS block might fix the bug! Not certain. It appears to work as expected now.
             if (i > 0 && prevElement > inputArray[i] && inputArray[i] == 0) {
 
                 inputArray[i] = element*2 + prevElement + 1;
