@@ -198,79 +198,39 @@ public class Sort {
             //  use a for loop to iterate through each elemennt and put it into a temp array
             Comparable[] subarray = new MergesortHeapNode[k];
             for (int i = 0, j = low; i < subarray.length; i++, j++) {
-                if (i > 0) {
-                    subarray[i] = new MergesortHeapNode(data[low + i*(high-low+1)/k - 1], j); // grab the correct data to put in the subarray
-                } else {
+//                if (i > 0) {
+//                    subarray[i] = new MergesortHeapNode(data[low + i*(high-low+1)/k - 1], j); // grab the correct data to put in the subarray
+//                } else {
                     subarray[i] = new MergesortHeapNode(data[low + i*(high-low+1)/k], j); // grab the correct data to put in the subarray
 
-                }
+//                }
             }
             BinaryHeap heap = BinaryHeap.buildHeap(subarray); // Build the heap using the data stored int the subarray.
 
             // get the minimum elements from the heap and put each item in the temp array.
-            int[] tempArray = new int[subarray.length];
-            for (int i = 0; i < subarray.length; i++) {
+            int[] tempArray = new int[high - low + 1];
+            for (int i = 0; i < k; i++) {
                 int element = 0;
 
                 try {
                     element = ((MergesortHeapNode) heap.deleteMin()).getKey();
                     tempArray[i] = element;
+                    if (low + i*(high-low+1)/k < low + (i+1)*(high-low+1)/k - 1) {
+                        if (i < tempArray.length) {
+                            i++;
+                        }
+                        tempArray[i] = data[i];
+                    }
                 } catch (EmptyHeapException e) {
                     throw new RuntimeException(e);
                 }
 
             }
+            int[] ar = new int[k];
             // Update the data array to contain the sorted data. Should it go from low to high?
             for (int i = 0, j = low; i < subarray.length; i++, j++) {
                 data[j] = tempArray[i];
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//            BinaryHeap heap;
-//            Comparable[] newArray = new MergesortHeapNode[k];
-//            int whichArray = -1;
-//            for (int i = 0, j = low; i < data.length; i++, j++) {
-//                if (i % k == 0) { // only make a new array for each subarray necessary
-//                    whichArray++;
-//                    newArray = new MergesortHeapNode[k]; // 1. assign the first element of each subarray(data[]) to a new array of size k call it newArray.
-//
-//                }
-//                newArray[i] = new MergesortHeapNode(data[j], whichArray);
-//                heap = BinaryHeap.buildHeap(newArray); // 2. Make a heap of the newArray
-//                if (heap.isEmpty()) {
-//                    break;
-//                } else {
-//                    try {
-//                        data[j] = ((MergesortHeapNode) heap.deleteMin()).getKey(); // 3. Make a call to deleteMin on the new heap // 4. Assign the data from the MergesortHeapNode to a spot in the output array.
-//                    } catch (EmptyHeapException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//            }
-
-            /*
-            1. assign the first element of each subarray(data[]) to a new array of size k call it newArray.
-            2. Make a heap of the newArray
-                        Do the following while the heap is not empty
-            3. Make a call to deleteMin on the new heap
-            4. Assign the data from the MergesortHeapNode to a spot in the output array.
-            5. Get the next element from the subarray that the previous element came from.
-                Use the whichSubarray field to choose elements in the case that there are any remaining elements in the subarray
-             */
 
         }
     }
@@ -326,8 +286,7 @@ public class Sort {
         for (int i = 0; i < data.length; i++) {
             System.out.println("data[" + i + "] = " + data[i]);
         }
-        // int k = 100
-        int k = 3;
+         int k = 100;
         kwayMergesort(data, k);
         
         // verify that data[i] = i
@@ -335,6 +294,7 @@ public class Sort {
             if (data[i] != i) {
                 System.out.println ("Error!  data[" + i + "] = " + data[i] + ".");
             }
+            System.out.println("data[" + i + "] = " + data[i]);
         }
     }
     
@@ -355,12 +315,12 @@ public class Sort {
 
         int n = 1600000;    // n = size of the array
 //        int k = 2;         // k = k in k-way mergesort
-        int k = 3;
+        int k = 2;
         int[] data = getRandomArrayOfIntegers(n);
 //        heapSort(data);
 //        insertionSort(data);
 //        mergesort(data);
-        kwayMergesort(data, k);
+//        kwayMergesort(data, k);
     
         // stop the timer
         Date finishDate = new Date();
