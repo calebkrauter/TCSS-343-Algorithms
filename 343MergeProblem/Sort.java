@@ -186,50 +186,64 @@ public class Sort {
             }
             
         } else {
-
-
-//            System.out.println("Current data " + low + " " + high + " " + k);
-            // do a k-way merge on the k sorted subarrays
-
             // YOUR CODE TO DO A k-WAY MERGE GOES HERE
 
+        /*
+        1. Define an array of integers of size k. These are the "fingers" to indicate where we are in each subarray.
+         We initialize according to the formula in the comment. This will be a for loop that iterates k times.
+        2. We fill it with the data at each of initial locations of each subarray. Then we call buildHeap on this array.
+        2. We define an array of integers of size high - low + 1. This is to keep track of the sorted array that will be copied back into data[low .. high].
+        3. In the main loop, we iterate exactly high - low + 1 times:
+        + deleteMin from the heap. Put the integer from that MergesortHeapNode into temp.
+        + increment the index (the "finger") for the corresponding subarray. If it is beyond the end of the subarray, do nothing. If it isn't at the end,
+         then create a MergesortHeapNode based on the item in the subarray, and then insert it into the heap.
+        4. After the loop, copy the elements of temp into the appropriate place in data.
+         */
 
-            // get a subarray
-            //  use a for loop to iterate through each elemennt and put it into a temp array
-            Comparable[] subarray = new MergesortHeapNode[k];
-            for (int i = 0, j = low; i < subarray.length; i++, j++) {
-//                if (i > 0) {
-//                    subarray[i] = new MergesortHeapNode(data[low + i*(high-low+1)/k - 1], j); // grab the correct data to put in the subarray
-//                } else {
-                    subarray[i] = new MergesortHeapNode(data[low + i*(high-low+1)/k], j); // grab the correct data to put in the subarray
 
-//                }
+            // 1. Define an array of integers of size k. These are the "fingers" to indicate where we are in each subarray.
+            // We initialize according to the formula in the comment. This will be a for loop that iterates k times.
+            int[] fingers = new int[k];
+            MergesortHeapNode[] mSHN =  new MergesortHeapNode[k];
+
+            for (int i = 0, j = low; i < k; i++, j++) {
+                fingers[i] = data[low + i*(high-low+1)/k];
+
+                // We fill it with the data at each of initial locations of each subarray.
+                mSHN[i] = new MergesortHeapNode(fingers[i], j);
             }
-            BinaryHeap heap = BinaryHeap.buildHeap(subarray); // Build the heap using the data stored int the subarray.
+            // Then we call buildHeap on this array.
+            BinaryHeap heap = BinaryHeap.buildHeap(mSHN);
+            //  We define an array of integers of size high - low + 1.
+            //  This is to keep track of the sorted array that will be copied back into data[low .. high].
+            int[] temp = new int[high - low + 1];
 
-            // get the minimum elements from the heap and put each item in the temp array.
-            int[] tempArray = new int[high - low + 1];
-            for (int i = 0; i < k; i++) {
-                int element = 0;
+            //  In the main loop, we iterate exactly high - low + 1 times:
+            int i = 0;
+            int j = low;
+            while (!heap.isEmpty() && i < high - low + 1) {
 
                 try {
-                    element = ((MergesortHeapNode) heap.deleteMin()).getKey();
-                    tempArray[i] = element;
-                    if (low + i*(high-low+1)/k < low + (i+1)*(high-low+1)/k - 1) {
-                        if (i < tempArray.length) {
-                            i++;
-                        }
-                        tempArray[i] = data[i];
-                    }
+                    //   + deleteMin from the heap. Put the integer from that MergesortHeapNode into temp.
+                    temp[i] = ((MergesortHeapNode) heap.deleteMin()).getKey();
                 } catch (EmptyHeapException e) {
                     throw new RuntimeException(e);
                 }
 
+                if (low + (i+1)*(high-low+1)/k - 1 < k) {
+                    if (i < temp.length) { // Increment i without going out of bounds
+                            i++; // + increment the index (the "finger") for the corresponding subarray.
+                        }
+                    // If it isn't at the end, then create a MergesortHeapNode based on the item in the subarray,
+                    MergesortHeapNode newMSHN = new MergesortHeapNode(low + i*(high-low+1)/k, j);
+                    heap.insert(newMSHN); // and then insert it into the heap.
+                }// If it is beyond the end of the subarray, do nothing.
+                i++;
+                j++;
             }
-            int[] ar = new int[k];
-            // Update the data array to contain the sorted data. Should it go from low to high?
-            for (int i = 0, j = low; i < subarray.length; i++, j++) {
-                data[j] = tempArray[i];
+            //  After the loop, copy the elements of temp into the appropriate place in data.
+            for (int m = 0, p = low; m < temp.length; m++, p++) {
+                data[p] = temp[m];
             }
 
         }
@@ -294,7 +308,7 @@ public class Sort {
             if (data[i] != i) {
                 System.out.println ("Error!  data[" + i + "] = " + data[i] + ".");
             }
-            System.out.println("data[" + i + "] = " + data[i]);
+//            System.out.println("data[" + i + "] = " + data[i]);
         }
     }
     
@@ -312,15 +326,15 @@ public class Sort {
         Date startDate = new Date();
         startTime = startDate.getTime();
 
-
-        int n = 1600000;    // n = size of the array
+        int n = 200000;
+//        int n = 1600000;    // n = size of the array
 //        int k = 2;         // k = k in k-way mergesort
-        int k = 2;
+        int k = 50;
         int[] data = getRandomArrayOfIntegers(n);
 //        heapSort(data);
 //        insertionSort(data);
 //        mergesort(data);
-//        kwayMergesort(data, k);
+        kwayMergesort(data, k);
     
         // stop the timer
         Date finishDate = new Date();
