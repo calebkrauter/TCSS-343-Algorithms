@@ -1,22 +1,16 @@
-public class KnapSackDynamicPrograming01 {
+package algorithms;
 
-    private int[] v;
-    private int[] w;
-    private final int CAPACTIY = 5;
-    private final int NUM_OF_ITEMS = 4;
+public class KnapSackDP01 {
 
-    private int [][] dPTable;
+    public KnapSackDP01(int[] w, int[] v, int[][] dPTable, int CAPACTIY, int NUM_OF_ITEMS) {
 
-    public KnapSackDynamicPrograming01() {
-        w = new int[] {2, 1, 3, 2};
-        v = new int[] {12, 10, 20, 15};
-        dPTable = new int[NUM_OF_ITEMS+1][CAPACTIY+1];
-        dPBottomUp();
+        dPBottomUp(w, v, dPTable, CAPACTIY, NUM_OF_ITEMS);
 
     }
 
-    private void dPBottomUp() {
+    private void dPBottomUp(int[] w, int[] v, int[][] dPTable, int CAPACTIY, int NUM_OF_ITEMS) {
         // do check and add
+
 
         int curWeight = 0;
         int curVal = 0;
@@ -36,7 +30,7 @@ public class KnapSackDynamicPrograming01 {
             }
         }
 
-        System.out.println(dPTable[NUM_OF_ITEMS][CAPACTIY]);
+        System.out.println("Bottom Up DP | " + dPTable[NUM_OF_ITEMS][CAPACTIY]);
 
     }
 
