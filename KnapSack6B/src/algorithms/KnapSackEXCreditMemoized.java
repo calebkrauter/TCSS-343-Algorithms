@@ -37,29 +37,26 @@ public class KnapSackEXCreditMemoized {
 
 
     private int dPMemoized(int i, int j) {
-        if (i == 0 || j == 0) {
-            return 0;
-        }
-        if (dPTable[i][j] != -1) {
-            return dPTable[i][j];
-        }
+       if (i == 0 || j == 0) {
+           return 0;
+       }
+       if (dPTable[i][j] != -1) {
+           return dPTable[i][j];
+       }
         int val = 0;
-        if (dPTable[i][j] < 0) {
-            if (j < w[i-1]) {
-                val = dPMemoized(i-1, j);
-
-            } else {
-                if ((dPMemoized(i-1, j) < v[i-1] + dPMemoized(i-1, j-w[i-1]))) {
-                    val = v[i-1] + dPMemoized(i-1, j-w[i-1]);
-                } else {
-                    val = dPMemoized(i-1, j);
-                }
-            }
-            dPTable[i][j] = val;
-        }
-
-
-        return dPTable[i][j];
+       if (dPTable[i][j] < 0) {
+           if (j < w[i-1]) {
+               val = dPMemoized(i-1, j);
+           } else {
+               if (dPMemoized(i-1, j) < v[i-1] + dPMemoized(i-1, j-w[i-1])) {
+                   val = v[i-1] + dPMemoized(i-1, j-w[i-1]);
+               } else {
+                   val = dPMemoized(i-1, j);
+               }
+           }
+       }
+       dPTable[i][j] = val;
+       return dPTable[i][j];
     }
 
 //    private void printTable() {

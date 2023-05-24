@@ -20,8 +20,7 @@ public class KnapSackDP01 {
             for (int j = 1; j <= CAPACTIY; j++) {
 
                 dPTable[i][j] = dPTable[i-1][j];
-//                System.out.print(j + " ");
-//                System.out.print(w[i] + " ");
+
                 if (j >= w[i-1] && dPTable[i-1][j] < curVal + dPTable[i-1][j-curWeight]) {
                     dPTable[i][j] = dPTable[i-1][j-curWeight] + curVal;
                 } else {
