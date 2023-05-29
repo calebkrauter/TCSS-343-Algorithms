@@ -1,7 +1,9 @@
 package algorithms;
 
 import java.util.ArrayList;
-
+/**
+ * @author Caleb Krauter
+ */
 public class KnapSackBruteForce01 {
 
 
@@ -27,12 +29,12 @@ public class KnapSackBruteForce01 {
         for (int i = 1; i <= NUM_OF_ITEMS; i++) {
             curWeight = w[i-1];
             curVal = v[i-1];
-            System.out.println();
+//            System.out.println();
             ArrayList<Integer> in = new ArrayList<>();
             for (int j = 1; j <= CAPACTIY; j++) {
                 if(j >= w[i-1]) {
                     in.add(curVal);
-                    System.out.print(curVal + ", ");
+//                    System.out.print(curVal + ", ");
                 }
             }
 
@@ -43,18 +45,18 @@ public class KnapSackBruteForce01 {
 //                innerOptValuesCombined += in.get(k-1);
             }
             if (outerOptValuesCombined > innerOptValuesCombined) {
-                System.out.println(outerOptValuesCombined);
+//                System.out.println(outerOptValuesCombined);
                 inner = false;
             } else {
                 out = in;
-                System.out.println(innerOptValuesCombined);
+//                System.out.println(innerOptValuesCombined);
                 inner = true;
             }
 
         }
-//        for (int i = 0; i <= out.size()-1; i++) {
-//            System.out.print(out.get(i-1));
-//        }
+
+        // TODO Use the boolean inner to determine which set is more optimal.
+
 
 
         System.out.println("Brute Force | " + dPTable[NUM_OF_ITEMS][CAPACTIY]);

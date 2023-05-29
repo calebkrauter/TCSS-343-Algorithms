@@ -1,5 +1,7 @@
 package algorithms;
-
+/**
+ * @author Caleb Krauter
+ */
 public class KnapSackDPUnbounded01 {
 
     public KnapSackDPUnbounded01(int[] w, int[] v, int[][] dPTable, int CAPACTIY, int NUM_OF_ITEMS) {

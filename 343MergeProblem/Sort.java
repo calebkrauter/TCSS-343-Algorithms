@@ -308,6 +308,7 @@ public class Sort {
             if (data[i] != i) {
                 System.out.println ("Error!  data[" + i + "] = " + data[i] + ".");
             }
+            // For testing
 //            System.out.println("data[" + i + "] = " + data[i]);
         }
     }
@@ -326,15 +327,26 @@ public class Sort {
         Date startDate = new Date();
         startTime = startDate.getTime();
 
-        int n = 200000;
+//        int n = 200000;
+//        int n = 400000;
+//        int n = 800000;
+//        int n = 1600000;
+        int n = 3200000;
+
 //        int n = 1600000;    // n = size of the array
 //        int k = 2;         // k = k in k-way mergesort
-        int k = 50;
+
+        int k = 2;
+//        int k = 3;
+//        int k = 5;
+//        int k = 10;
+//        int k = 20;
+//        int k = 50;
         int[] data = getRandomArrayOfIntegers(n);
 //        heapSort(data);
 //        insertionSort(data);
-//        mergesort(data);
-        kwayMergesort(data, k);
+        mergesort(data);
+//        kwayMergesort(data, k);
     
         // stop the timer
         Date finishDate = new Date();
