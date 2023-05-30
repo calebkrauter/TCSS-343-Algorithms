@@ -1,4 +1,4 @@
-package algorithms_model;
+package model.algorithms;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package algorithms_model;
+package model.algorithms;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @version 1.0
  *
  *
- * NOTE: I use main method for each of my algorithms to reduce instantiations/method/constructor
+ * NOTE: I use main method for each of my model.algorithms to reduce instantiations/method/constructor
  * calls to improve experimental accuracy in results.
  */
 
@@ -142,7 +142,7 @@ public class Knapsack_memoized_dp {
     private void printTable() {
         for (int i = 0; i <= myNumOfItems; i++) {
             System.out.println();
-            for (int j = 0; j <= myCapacity; j++ ) {
+            for (int j = 0; j <= myCapacity; j++) {
                 if (i > 0 && j > 0) {
                     System.out.print(myDPTable[i][j] + ", ");
                 } else {

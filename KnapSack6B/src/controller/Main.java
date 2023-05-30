@@ -1,3 +1,5 @@
+package controller;
+
 import controller.AlgorithmsManager;
 /**
  * @author Caleb Krauter

@@ -1,4 +1,4 @@
-package algorithms_model;
+package model.algorithms;
 /**
  * @author Caleb Krauter
  * @version 1.0
