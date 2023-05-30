@@ -30,11 +30,11 @@ public class AlgorithmsManager {
         // Knapsack dp
         Date start = new Date();
         startTime = start.getTime();
-
-        w = new int[] {2, 1, 3, 2};
-        v = new int[] {12, 10, 20, 15};
-        dPTable = new int[NUM_OF_ITEMS+1][CAPACTIY+1];
-        new KnapSackDP01(w, v, dPTable, CAPACTIY, NUM_OF_ITEMS);
+//
+//        w = new int[] {2, 1, 3, 2};
+//        v = new int[] {12, 10, 20, 15};
+//        dPTable = new int[NUM_OF_ITEMS+1][CAPACTIY+1];
+//        new KnapSackDP01(w, v, dPTable, CAPACTIY, NUM_OF_ITEMS);
 //
         Date finish = new Date();
 //        endTime = finish.getTime();
@@ -68,16 +68,16 @@ public class AlgorithmsManager {
 //        System.out.println("KnapSack Brute Force 01 took : " + totalTime + " ms");
 
 //        // Memmoized EX credit
-//        start = new Date();
-//        startTime = start.getTime();
-//        w = new int[] {2, 1, 3, 2};
-//        v = new int[] {12, 10, 20, 15};
-//        dPTable = new int[NUM_OF_ITEMS+1][CAPACTIY+1];
+        start = new Date();
+        startTime = start.getTime();
+        w = new int[] {2, 1, 3, 2};
+        v = new int[] {12, 10, 20, 15};
+        dPTable = new int[NUM_OF_ITEMS+1][CAPACTIY+1];
 //        new KnapSackEXCreditMemoized(w, v, dPTable, CAPACTIY, NUM_OF_ITEMS);
-//
-//        finish = new Date();
-//        endTime = finish.getTime();
-//        totalTime += (endTime - startTime);
-//        System.out.println("KnapSack Memoized 01 took : " + totalTime + " ms");
+
+        finish = new Date();
+        endTime = finish.getTime();
+        totalTime += (endTime - startTime);
+        System.out.println("KnapSack Memoized 01 took : " + totalTime + " ms");
     }
 }
