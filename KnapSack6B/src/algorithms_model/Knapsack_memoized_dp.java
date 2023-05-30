@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms_model;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * An implementation of the knapsack memoized algorithm.
  */
-public class KnapSackEXCreditMemoized {
+public class Knapsack_memoized_dp {
     /**
      * myWeight is an array of weights which correspond to items at each index.
      */
@@ -44,16 +44,16 @@ public class KnapSackEXCreditMemoized {
     private static ArrayList<Integer> myOptimalSetOfIndices;
 
     /**
-     * main initializes the data, DPTable, makes a call to the dPMemoized() method,
+     * The constructor initializes the data, DPTable, makes a call to the knapsack_memoized_dp() method,
      * prints results and contains test cases and timing results.
-     * @param args
      */
-    public static void main(String[] args) {
-        myWeight = new int[] {2, 1, 3, 2};
-        myValue = new int[] {12, 10, 20, 15};
-        myCapacity = 5;
-        myNumOfItems = myValue.length;
-        myDPTable = new int[myNumOfItems+1][myCapacity+1];
+
+    public Knapsack_memoized_dp(int[] theWeight, int[] theValue, int theCapacity, int theNumOfItems, int[][] theDPTable) {
+        myWeight = theWeight;
+        myValue = theValue;
+        myCapacity = theCapacity;
+        myNumOfItems = theNumOfItems;
+        myDPTable = theDPTable;
 
 
         // Initialize the DPTABLE. This is done here to reduce unnecessary method calls for performance benefits.
@@ -70,8 +70,8 @@ public class KnapSackEXCreditMemoized {
         int i = myNumOfItems;
         int j = myCapacity;
 
-        // Call to the DPMemoized method
-        System.out.println("Top Down Memoized | " + dPMemoized(i, j));
+        // Call to the knapsack_memoized_dp method
+        int maxVal = knapsack_memoized_dp(i, j);
 
         // Backtracking is done here to get the index of all optimal items added.
         // This is done here to reduce method calls.
@@ -92,10 +92,12 @@ public class KnapSackEXCreditMemoized {
         }
         System.out.print("]");
         System.out.println();
+        System.out.println("Knapsack_memoized_dp max value | " + maxVal);
         // Uncomment this block to see what the DPTable looks like
 //        printTable();
     }
 
+    // "knapsack-memoized-dp" caused an error so changed the name to "knapsack_memoized_dp" to follow the assignment specs as closely as possible.
     /**
      * The primary method, performs a solution to the Knapsack 01 problem using a
      * Dynamic Programming Memoized approach.
@@ -103,7 +105,7 @@ public class KnapSackEXCreditMemoized {
      * @param j an index representing the cols for each capacity on the DPTable.
      * @return the maximum value possible in the Knapsack problem.
      */
-    private static int dPMemoized(int i, int j) {
+    private static int knapsack_memoized_dp(int i, int j) {
        if (i == 0 || j == 0) {
            return 0;
        }
@@ -118,14 +120,14 @@ public class KnapSackEXCreditMemoized {
            // If current capacity is less than the weight of the previous item.
            if (j < myWeight[i-1]) {
                // Since the previous item's weight is too much, set val and recursively call to the previous item.
-               val = dPMemoized(i-1, j);
+               val = knapsack_memoized_dp(i-1, j);
            } else {
                // This is similar to the recurrence relation found on ((page 293) of Levitin)
                // Case when j - w_i >= 0
-               if (dPMemoized(i-1, j) < myValue[i-1] + dPMemoized(i-1, j-myWeight[i-1])) {
-                   val = myValue[i-1] + dPMemoized(i-1, j-myWeight[i-1]);
+               if (knapsack_memoized_dp(i-1, j) < myValue[i-1] + knapsack_memoized_dp(i-1, j-myWeight[i-1])) {
+                   val = myValue[i-1] + knapsack_memoized_dp(i-1, j-myWeight[i-1]);
                } else { // Case when j - w_i < 0
-                   val = dPMemoized(i-1, j);
+                   val = knapsack_memoized_dp(i-1, j);
                }
            }
        }

@@ -1,10 +1,10 @@
-package algorithms;
+package algorithms_model;
 /**
  * @author Caleb Krauter
+ * @version 1.0
  * Created as an aid for Peer 4.
  */
 
-// TODO - don't finish this one, it is purely extra.
 public class KnapSackDPUnbounded01 {
 
     public KnapSackDPUnbounded01(int[] w, int[] v, int[][] dPTable, int CAPACTIY, int NUM_OF_ITEMS) {
@@ -22,8 +22,7 @@ public class KnapSackDPUnbounded01 {
             for (int j = 1; j <= CAPACTIY; j++) {
 
                 dPTable[i][j] = dPTable[i-1][j];
-//                System.out.print(j + " ");
-//                System.out.print(w[i] + " ");
+
                 if (j >= w[i-1] && dPTable[i-1][j] < curVal + dPTable[i][j-curWeight]) {
                     dPTable[i][j] = dPTable[i][j-curWeight] + curVal;
                 } else {
