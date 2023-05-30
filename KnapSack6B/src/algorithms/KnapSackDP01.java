@@ -20,7 +20,7 @@ public class KnapSackDP01 {
 
         int curWeight = 0;
         int curVal = 0;
-        ArrayList<Integer> optimalSet = null;
+        ArrayList<Integer> optimalSetOfIndices;
 
         for (int i = 1; i <= NUM_OF_ITEMS; i++) {
             curWeight = w[i-1];
@@ -35,18 +35,25 @@ public class KnapSackDP01 {
                 } else {
                     dPTable[i][j] = dPTable[i-1][j];
                 }
-//                optimalSet = new ArrayList<>();
-//                for (int p = dPTable.length; p > 0; p--) {
-//                    if (dPTable[i][j] != dPTable[i-1][j]) {
-//                        optimalSet.add(v[i-1]);
-//                        j -= w[j-curWeight];
-//                    }
-//                }
             }
         }
-//        for (int i = 0; i < optimalSet.size(); i++)
-//        System.out.println(optimalSet.get(i));
+        int j = CAPACTIY;
 
+        optimalSetOfIndices = new ArrayList<>();
+        for (int i = dPTable.length - 1; i > 0; i--) {
+            if (dPTable[i][j] != dPTable[i-1][j]) {
+                optimalSetOfIndices.add(i-1);
+                j -= w[i-1];
+
+            }
+        }
+
+        System.out.print("[");
+        for (int i = optimalSetOfIndices.size() - 1; i >= 0; i--) {
+            System.out.print("index: " + optimalSetOfIndices.get(i) + " ");
+        }
+        System.out.print("]");
+        System.out.println();
 
 
         System.out.println("Bottom Up DP | " + dPTable[NUM_OF_ITEMS][CAPACTIY]);
