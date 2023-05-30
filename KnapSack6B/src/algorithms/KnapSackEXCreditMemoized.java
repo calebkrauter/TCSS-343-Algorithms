@@ -19,6 +19,9 @@ public class KnapSackEXCreditMemoized {
         //        printTable();
     }
 
+    // TODO - do this last.
+    // TODO learn about memoized DP knapsack solution
+    // TODO implement backtracking or alternate optimal subset solution
     private void initDPTable() {
 
         for (int i = 0; i <= this.NUM_OF_ITEMS; i++) {

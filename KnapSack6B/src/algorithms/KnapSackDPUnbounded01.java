@@ -1,7 +1,10 @@
 package algorithms;
 /**
  * @author Caleb Krauter
+ * Created as an aid for Peer 4.
  */
+
+// TODO - don't finish this one, it is purely extra.
 public class KnapSackDPUnbounded01 {
 
     public KnapSackDPUnbounded01(int[] w, int[] v, int[][] dPTable, int CAPACTIY, int NUM_OF_ITEMS) {
