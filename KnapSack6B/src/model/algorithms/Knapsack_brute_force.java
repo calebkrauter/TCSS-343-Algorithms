@@ -7,8 +7,12 @@ import java.util.Date;
 /**
  * @author Caleb Krauter
  * @version 1.0
+ * Collaborated with Parker and Anthony on 6B.
  */
 
+/**
+ * An implementation of a bruteforce solution to the 0-1 Knapsack problem.
+ */
 public class Knapsack_brute_force {
 
     /**
@@ -26,7 +30,7 @@ public class Knapsack_brute_force {
     /**
      * The weight max of the knapsack.
      */
-    private int myCapacity;
+    private int W;
 
     /**
      * The constructor initializes class fields and calls the method containing
@@ -37,7 +41,7 @@ public class Knapsack_brute_force {
      */
     public Knapsack_brute_force(ArrayList<int[]> theItems, int theCapacity, int theNumOfItems) {
         myItems = theItems;
-        myCapacity = theCapacity;
+        W = theCapacity;
         long endTime = 0;
         long totalTime = 0;
         long startTime = 0;
@@ -93,7 +97,7 @@ public class Knapsack_brute_force {
 
             // We want to make sure the current set of items has a
             // collective weight that does not exceed the capacity.
-            if (sumWeight <= myCapacity) {
+            if (sumWeight <= W) {
                 // We want to update the bestValue we have found if we find a greater value.
                 if (sumValue > bestValue) {
                     bestValue = sumValue;
@@ -103,12 +107,13 @@ public class Knapsack_brute_force {
         }
 
         // We want to print out the indices we have found to be used to access the items of the optimal set.
-        System.out.print("[");
+        System.out.print("Indices : [");
+        int n = myItems.size();
         for (int j = 0; j < optimalSet.size(); j++) {
 
-            for (int i = 0; i < myItems.size(); i++) {
+            for (int i = 0; i < n; i++) {
                 if (optimalSet.get(j)[0] == myItems.get(i)[0] && optimalSet.get(j)[1] == myItems.get(i)[1]) {
-                    System.out.print("index:  " + i + " ");
+                    System.out.print(" " + i + " ");
                 }
             }
         }

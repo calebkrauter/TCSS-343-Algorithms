@@ -15,62 +15,110 @@ import java.util.Date;
  * @version 1.0
  * Collaborated with Parker and Anthony on 6B.
  */
+
+/**
+ * Manages test cases and algorithms.
+ */
 public class AlgorithmsManager {
-
-
-    private int myCapacity;
-    private int myNumOfItems;
+    /**
+     * Capacity.
+     */
+    private int W;
+    /**
+     * Number of myItems.
+     */
+    private int n;
+    /**
+     * The number of myItems bound used for generating a random number.
+     */
     private int myNumOfItemsBound;
+    /**
+     * The number of myItems origin used for generating a random number.
+     */
     private int myNumOfItemsOrigin;
+    /**
+     * The number for capacity bound used for generating a random number.
+     */
     private int myCapacityBound;
+    /**
+     * The number for capacity origin used for generating a random number.
+     */
     private int myCapacityOrigin;
+    /**
+     * myDPTable is a 2D array that holds the integers representing values
+     * for each 'i' item at each 'j' capacity.
+     */
+    private int [][] myDPTable;
+    /**
+     * An array of weights each of which correspond to each item respectively.
+     */
+    private static int[] weights;
+    /**
+     * An array of values each of which correspond to each item respectively.
+     */
+    private static int[] values;
+    /**
+     * A reference to the random number generator Object.
+     */
+    private RandomNumberGenerator myRandomNum;
+    /**
+     * The number for weight origin used for generating a random number.
+     */
+    private int myWeightOrigin;
+    /**
+     * The number for weight bound used for generating a random number.
+     */
+    private int myWeightBound;
+    /**
+     * The number for value origin used for generating a random number.
+     */
+    private int myValOrigin;
+    /**
+     * The number for value bound used for generating a random number.
+     */
+    private int myValBound;
+    /**
+     * A class constant used for the number of times each algorithm is run for experimentation purposes.
+     */
+    private final int NUM_OF_ITERATIONS = 3;
+    /**
+     * An arraylist used to contain myItems' weights and values for the bruteforce algorithm.
+     */
+    private ArrayList<int[]> myItems;
 
-    private int [][] dPTable;
-    static int[] myWeights;
-    static int[] myValues;
-    RandomNumberGenerator randomNum;
-    int weightOrigin;
-    int weightBound;
-    int valOrigin;
-    int valBound;
-    int myNumOfIterations = 3;
-    ArrayList<int[]> items;
-
-    // TODO add methodical test cases.
-
-    // Generate random value for the num of items, the integer used for each weight and value. pass in origin and bound. Have it return a value
+    // Generate random value for the num of myItems, the integer used for each weight and value. pass in origin and bound. Have it return a value
     public AlgorithmsManager() {
-        long endTime = 0;
-        long totalTime = 0;
-        long startTime = 0;
-        randomNum = new RandomNumberGenerator();
+        myRandomNum = new RandomNumberGenerator();
+
+        // For cases 1 through 5.
+        // Increase item-number origin and bound by 5 every test
+        // Increase capacity, weight and value origin and bound by a multiple of 5 each time.
 
         // The following four test cases are for testing Bottom-Up, Memoized and Bruteforce and comparing them.
-        // Larger tests are done on 5 through 9 for Bottom-up and Memoized.
+        // Larger tests are done on 5 through 10 for Bottom-up and Memoized.
         // default to a minimum capacity of 1
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        myNumOfItemsOrigin = 1;
+
         myNumOfItemsBound = 5;
-        myCapacityOrigin = 1;
-        myCapacityBound = 10;
-        weightOrigin = 1;
-        weightBound = 5;
-        valOrigin = 1;
-        valBound = 15;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myNumOfItemsBound = 10;
+        myWeightOrigin = 1;
+        myWeightBound = 10;
+        myValOrigin = 1;
+        myValBound = 10;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runAlgorithms();
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         myNumOfItemsOrigin = 5;
         myNumOfItemsBound = 10;
-        myCapacityOrigin = 1;
+        myCapacityOrigin = 5;
         myCapacityBound = 50;
-        weightOrigin = 15;
-        weightBound = 75;
-        valOrigin = 15;
-        valBound = 99;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myWeightOrigin = 5;
+        myWeightBound = 50;
+        myValOrigin = 5;
+        myValBound = 50;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runAlgorithms();
 
@@ -79,212 +127,225 @@ public class AlgorithmsManager {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 3 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         myNumOfItemsOrigin = 10;
         myNumOfItemsBound = 15;
-        myCapacityOrigin = 1;
-        myCapacityBound = 500;
-        weightOrigin = 50;
-        weightBound = 900;
-        valOrigin = 50;
-        valBound = 150;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myCapacityOrigin = 25;
+        myCapacityBound = 150;
+        myWeightOrigin = 25;
+        myWeightBound = 150;
+        myValOrigin = 25;
+        myValBound = 250;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runAlgorithms();
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 4 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         myNumOfItemsOrigin = 15;
         myNumOfItemsBound = 20;
-        myCapacityOrigin = 1;
-        myCapacityBound = 5;
-        weightOrigin = 1;
-        weightBound = 900;
-        valOrigin = 50;
-        valBound = 100;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myCapacityOrigin = 125;
+        myCapacityBound = 750;
+        myWeightOrigin = 125;
+        myWeightBound = 750;
+        myValOrigin = 125;
+        myValBound = 1250;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runAlgorithms();
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 4 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         myNumOfItemsOrigin = 20;
         myNumOfItemsBound = 25;
-        myCapacityOrigin = 1000;
-        myCapacityBound = 2000;
-        weightOrigin = 1000;
-        weightBound = 1500;
-        valOrigin = 100;
-        valBound = 300;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myCapacityOrigin = 625;
+        myCapacityBound = 3750;
+        myWeightOrigin = 625;
+        myWeightBound = 3750;
+        myValOrigin = 625;
+        myValBound = 6250;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runAlgorithms();
 
         // The dynamic programming algorithms are compared here.
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 5 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        myNumOfItemsOrigin = 49;
-        myNumOfItemsBound = 50;
-        myCapacityOrigin = 500;
-        myCapacityBound = 1000;
-        weightOrigin = 5;
-        weightBound = 50;
-        valOrigin = 100;
-        valBound = 300;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
-        printTestData();
-        runDPAlgorithms();
-
+        // For cases 6 through 10.
+        // Increase item-number, capacity, weight and value origin and bound by a multiple of 5 each time.
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 6 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        myNumOfItemsOrigin = 100;
-        myNumOfItemsBound = 500;
-        myCapacityOrigin = 1000;
-        myCapacityBound = 5000;
-        weightOrigin = 500;
-        weightBound = 1000;
-        valOrigin = 500;
-        valBound = 1000;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myNumOfItemsOrigin = 5;
+        myNumOfItemsBound = 10;
+        myCapacityOrigin = 100;
+        myCapacityBound = 200;
+        myWeightOrigin = 1;
+        myWeightBound = 10;
+        myValOrigin = 20;
+        myValBound = 60;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runDPAlgorithms();
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 7 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        myNumOfItemsOrigin = 500;
-        myNumOfItemsBound = 1000;
-        myCapacityOrigin = 2000;
-        myCapacityBound = 10000;
-        weightOrigin = 1000;
-        weightBound = 2000;
-        valOrigin = 1000;
-        valBound = 2000;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myNumOfItemsOrigin = 30;
+        myNumOfItemsBound = 50;
+        myCapacityOrigin = 500;
+        myCapacityBound = 1000;
+        myWeightOrigin = 5;
+        myWeightBound = 50;
+        myValOrigin = 100;
+        myValBound = 300;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runDPAlgorithms();
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 8 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        myNumOfItemsOrigin = 1000;
-        myNumOfItemsBound = 2000;
-        myCapacityOrigin = 5000;
-        myCapacityBound = 12000;
-        weightOrigin = 5000;
-        weightBound = 10000;
-        valOrigin = 1500;
-        valBound = 5000;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myNumOfItemsOrigin = 150;
+        myNumOfItemsBound = 250;
+        myCapacityOrigin = 2500;
+        myCapacityBound = 5000;
+        myWeightOrigin = 25;
+        myWeightBound = 250;
+        myValOrigin = 500;
+        myValBound = 1500;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runDPAlgorithms();
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 9 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        myNumOfItemsOrigin = 5000;
-        myNumOfItemsBound = 10000;
-        myCapacityOrigin = 10000;
-        myCapacityBound = 15000;
-        weightOrigin = 10000;
-        weightBound = 15000;
-        valOrigin = 5000;
-        valBound = 10000;
-        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, weightOrigin, weightBound, valOrigin, valBound);
+        myNumOfItemsOrigin = 750;
+        myNumOfItemsBound = 1250;
+        myCapacityOrigin = 12500;
+        myCapacityBound = 25000;
+        myWeightOrigin = 125;
+        myWeightBound = 1250;
+        myValOrigin = 2500;
+        myValBound = 7500;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
         printTestData();
         runDPAlgorithms();
-        // Uncomment to see knapsack unbounded in action.
-        // Knapsack Unbounded
-//        start = new Date();
-//        startTime = start.getTime();
-//        w = new int[] {2, 1, 3, 2};
-//        v = new int[] {12, 10, 20, 15};
-//        dPTable = new int[NUM_OF_ITEMS+1][CAPACTIY+1];
-//        new KnapSackDPUnbounded01(w, v, dPTable, CAPACTIY, NUM_OF_ITEMS);
-//
-//        finish = new Date();
-//        endTime = finish.getTime();
-//        totalTime += (endTime - startTime);
-//        System.out.println("KnapSack Dynamic Programming unbounded 01 took : " + totalTime + " ms");
-//        System.out.println();
+
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEST CASE 10 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        myNumOfItemsOrigin = 3750;
+        myNumOfItemsBound = 6250;
+        myCapacityOrigin = 62500;
+        myCapacityBound = 125000;
+        myWeightOrigin = 625;
+        myWeightBound = 6250;
+        myValOrigin = 12500;
+        myValBound = 37500;
+        setupTestCase(myNumOfItemsOrigin, myNumOfItemsBound, myCapacityOrigin, myCapacityBound, myWeightOrigin, myWeightBound, myValOrigin, myValBound);
+        printTestData();
+        runDPAlgorithms();
+
     }
 
+    /**
+     * Runs the algorithms a specific number of times for experimentation.
+     */
     private void runAlgorithms() {
 
-        items = new ArrayList<>();
-        for (int i = 0; i < myNumOfItems; i++) {
-            items.add(new int[]{myWeights[i], myValues[i]});
+        myItems = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            myItems.add(new int[]{weights[i], values[i]});
         }
 
         // Init table for dynamic programming solutions
-        dPTable = new int[myNumOfItems+1][myCapacity+1];
+        myDPTable = new int[n+1][W+1];
 
-        for (int i = 0; i < myNumOfIterations; i++) {
+        for (int i = 0; i < NUM_OF_ITERATIONS; i++) {
             System.out.println("============Iteration " + i + " ========================");
-            new Knapsack_brute_force(items, myCapacity, myNumOfItems);
+            new Knapsack_brute_force(myItems, W, n);
         }
-        for (int i = 0; i < myNumOfIterations; i++) {
+        for (int i = 0; i < NUM_OF_ITERATIONS; i++) {
             System.out.println("============Iteration " + i + " ========================");
-            new Knapsack_bottom_up_dp(myWeights, myValues, myCapacity, myNumOfItems, dPTable);
+            new Knapsack_bottom_up_dp(weights, values, W, n, myDPTable);
         }
 
-        for (int i = 0; i < myNumOfIterations; i++) {
+        for (int i = 0; i < NUM_OF_ITERATIONS; i++) {
             System.out.println("============Iteration " + i + " ========================");
-            new Knapsack_memoized_dp(myWeights, myValues, myCapacity, myNumOfItems, dPTable);
+            new Knapsack_memoized_dp(weights, values, W, n, myDPTable);
         }
 
     }
 
+    /**
+     * Runs DP algorithms for experimentation.
+     */
     private void runDPAlgorithms() {
 
         // Init table for dynamic programming solutions
-        dPTable = new int[myNumOfItems+1][myCapacity+1];
-        for (int i = 0; i < myNumOfIterations; i++) {
+        myDPTable = new int[n+1][W+1];
+        for (int i = 0; i < NUM_OF_ITERATIONS; i++) {
             System.out.println("============Iteration " + i + " ========================");
-            new Knapsack_bottom_up_dp(myWeights, myValues, myCapacity, myNumOfItems, dPTable);
+            new Knapsack_bottom_up_dp(weights, values, W, n, myDPTable);
         }
 
-        for (int i = 0; i < myNumOfIterations; i++) {
+        for (int i = 0; i < NUM_OF_ITERATIONS; i++) {
             System.out.println("============Iteration " + i + " ========================");
-            new Knapsack_memoized_dp(myWeights, myValues, myCapacity, myNumOfItems, dPTable);
+            new Knapsack_memoized_dp(weights, values, W, n, myDPTable);
         }
     }
-    private void setupTestCase(int theNumOfItemsOrigin, int theNumOfItemsBound, int theCapacityOrigin, int theCapacityBound, int theWeightOrigin, int theWeightBound, int theValOrigin, int theValBound) {
+
+    /**
+     * Sets up test cases for running experiments.
+     * @param theNumOfItemsOrigin
+     * @param theNumOfItemsBound
+     * @param theCapacityOrigin
+     * @param theCapacityBound
+     * @param themyWeightOrigin
+     * @param themyWeightBound
+     * @param themyValOrigin
+     * @param themyValBound
+     */
+    private void setupTestCase(int theNumOfItemsOrigin, int theNumOfItemsBound, int theCapacityOrigin, int theCapacityBound, int themyWeightOrigin, int themyWeightBound, int themyValOrigin, int themyValBound) {
         myNumOfItemsOrigin = theNumOfItemsOrigin;
         myNumOfItemsBound = theNumOfItemsBound;
 
         // default to a minimum capacity of 1
         myCapacityOrigin = theCapacityOrigin;
         myCapacityBound = theCapacityBound;
-        weightOrigin = theWeightOrigin;
-        weightBound = theWeightBound;
-        valOrigin = theValOrigin;
-        valBound = theValBound;
+        myWeightOrigin = themyWeightOrigin;
+        myWeightBound = themyWeightBound;
+        myValOrigin = themyValOrigin;
+        myValBound = themyValBound;
 
-        randomNum.setTheNumOfItems(myNumOfItemsOrigin, myNumOfItemsBound);
-        myWeights = new int[randomNum.getTheNumOfItems()];
-        myValues = new int[randomNum.getTheNumOfItems()];
-        myNumOfItems = randomNum.getTheNumOfItems();
+        myRandomNum.setTheNumOfItems(myNumOfItemsOrigin, myNumOfItemsBound);
+        weights = new int[myRandomNum.getTheNumOfItems()];
+        values = new int[myRandomNum.getTheNumOfItems()];
+        n = myRandomNum.getTheNumOfItems();
 
         // Get random weights and values.
-        for (int i = 0; i < myNumOfItems; i++) {
-            myWeights[i] = new RandomNumberGenerator().randomNumberGenerator(weightOrigin, weightBound);
-            myValues[i] = new RandomNumberGenerator().randomNumberGenerator(valOrigin, valBound);
+        for (int i = 0; i < n; i++) {
+            weights[i] = new RandomNumberGenerator().randomNumberGenerator(myWeightOrigin, myWeightBound);
+            values[i] = new RandomNumberGenerator().randomNumberGenerator(myValOrigin, myValBound);
         }
 
-        int[] sortedWeights = Arrays.stream(myWeights).sorted().toArray();
+        int[] sortedWeights = Arrays.stream(weights).sorted().toArray();
         // update to a minimum value of the minimum weight size
         if (myCapacityOrigin >= myCapacityBound) {
             myCapacityOrigin = sortedWeights[0];
             myCapacityBound = sortedWeights[sortedWeights.length-1];
         }
-        myCapacity = new RandomNumberGenerator().randomNumberGenerator(myCapacityOrigin, myCapacityBound);
+        W = new RandomNumberGenerator().randomNumberGenerator(myCapacityOrigin, myCapacityBound);
 
     }
 
+    /**
+     * Outputs test data.
+     */
     private void printTestData() {
-        System.out.print("Num of items | " + myNumOfItems + " | with an origin: " + myNumOfItemsOrigin + " and a bound: " + myNumOfItemsBound);
+        System.out.print("Num of items | " + n + " | with an origin: " + myNumOfItemsOrigin + " and a bound: " + myNumOfItemsBound);
         System.out.println();
-        System.out.print("Capacity | " + myCapacity + " | with an origin: " + myCapacityOrigin + " and a bound: " + myCapacityBound);
+        System.out.print("Capacity | " + W + " | with an origin: " + myCapacityOrigin + " and a bound: " + myCapacityBound);
         System.out.println();
         System.out.print("Weights | ");
-        for (int i = 0; i < myNumOfItems; i++) {
-           System.out.print(myWeights[i] + ", ");
-        }
-        System.out.print("| with an origin: " + weightOrigin + " and a bound: " + weightBound);
+        // Uncomment to see the generated weights.
+//        for (int i = 0; i < n; i++) {
+//           System.out.print(weights[i] + ", ");
+//        }
+        System.out.print("| with an origin: " + myWeightOrigin + " and a bound: " + myWeightBound);
         System.out.println();
         System.out.print("Values | ");
-        for (int i = 0; i < myNumOfItems; i++) {
-            System.out.print(myValues[i] + ", ");
-        }
-        System.out.print("| with an origin: " + valOrigin + " and a bound: " + valBound);
+        // Uncomment to see the generated values.
+//        for (int i = 0; i < n; i++) {
+//            System.out.print(values[i] + ", ");
+//        }
+        System.out.print("| with an origin: " + myValOrigin + " and a bound: " + myValBound);
+        System.out.println("There are " + n + " Items and thus " + n + " number of randomly generated weights and values");
         System.out.println();
         System.out.println();
     }

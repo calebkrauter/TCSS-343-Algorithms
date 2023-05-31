@@ -6,10 +6,7 @@ import java.util.Date;
 /**
  * @author Caleb Krauter
  * @version 1.0
- *
- *
- * NOTE: I use main method for each of my model.algorithms to reduce instantiations/method/constructor
- * calls to improve experimental accuracy in results.
+ * Collaborated with Parker and Anthony on 6B.
  */
 
 /**
@@ -17,32 +14,32 @@ import java.util.Date;
  */
 public class Knapsack_memoized_dp {
     /**
-     * myWeight is an array of weights which correspond to items at each index.
+     * weight is an array of weights which correspond to items at each index.
      */
-    private static int[] myWeight;
+    private  int[] weight;
     /**
-     * myValue is an array of values which correspond to items at each index.
+     * value is an array of values which correspond to items at each index.
      */
-    private static int[] myValue;
+    private int[] value;
     /**
      * myDPTable is a 2D array that holds the integers representing values
      * for each 'i' item at each 'j' capacity.
      */
-    private static int[][] myDPTable;
+    private int[][] myDPTable;
     /**
-     * myCapacity is the weight limit on the knapsack.
+     * W is the weight limit on the knapsack.
      */
-    private static int myCapacity;
+    private int W;
     /**
-     * myNumOfItems is the integer number of items considered for
+     * n is the integer number of items considered for
      * putting in the knapsack.
      */
-    private static int myNumOfItems;
+    private int n;
     /**
      * myOptimalSetOfIndices is an ArrayList of Object type Integer. Its purpose is
      * to contain any index/indices corresponding to any item(s) in the optimal set.
      */
-    private static ArrayList<Integer> myOptimalSetOfIndices;
+    private ArrayList<Integer> myOptimalSetOfIndices;
 
     /**
      * The constructor initializes the data, DPTable, makes a call to the knapsack_memoized_dp() method,
@@ -50,10 +47,10 @@ public class Knapsack_memoized_dp {
      */
 
     public Knapsack_memoized_dp(int[] theWeight, int[] theValue, int theCapacity, int theNumOfItems, int[][] theDPTable) {
-        myWeight = theWeight;
-        myValue = theValue;
-        myCapacity = theCapacity;
-        myNumOfItems = theNumOfItems;
+        weight = theWeight;
+        value = theValue;
+        W = theCapacity;
+        n = theNumOfItems;
         myDPTable = theDPTable;
         long endTime = 0;
         long totalTime = 0;
@@ -63,15 +60,15 @@ public class Knapsack_memoized_dp {
         // As the problem specifications (per the Levitin book (pg 295)) state
         // the table must be initalized to a value to represent a "null" state.
         // We use -1 to do this.
-        for (int i = 0; i <= myNumOfItems; i++) {
-            for (int j = 0; j <= myCapacity; j++ ) {
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= W; j++ ) {
                 myDPTable[i][j] = -1;
 
             }
         }
 
-        int i = myNumOfItems;
-        int j = myCapacity;
+        int i = n;
+        int j = W;
 
         Date start = new Date();
         startTime = start.getTime();
@@ -80,20 +77,20 @@ public class Knapsack_memoized_dp {
 
         // Backtracking is done here to get the index of all optimal items added.
         // This is done here to reduce method calls.
-        int curWeight = myCapacity;
+        int curWeight = W;
         myOptimalSetOfIndices = new ArrayList<>();
         for (int curItem = myDPTable.length - 1; curItem > 0; curItem--) {
             if (myDPTable[curItem][curWeight] != myDPTable[curItem-1][curWeight]) {
                 myOptimalSetOfIndices.add(curItem-1);
-                curWeight -= myWeight[curItem-1];
+                curWeight -= weight[curItem-1];
 
             }
         }
 
         // Printing out the data required as output is done here to reduce unnecessary method calls.
-        System.out.print("[");
+        System.out.print("Indices : [");
         for (int p = myOptimalSetOfIndices.size() - 1; p >= 0; p--) {
-            System.out.print("index: " + myOptimalSetOfIndices.get(p) + " ");
+            System.out.print(" " + myOptimalSetOfIndices.get(p) + " ");
         }
         System.out.print("]");
         System.out.println();
@@ -116,7 +113,7 @@ public class Knapsack_memoized_dp {
      * @param j an index representing the cols for each capacity on the DPTable.
      * @return the maximum value possible in the Knapsack problem.
      */
-    private static int knapsack_memoized_dp(int i, int j) {
+    private int knapsack_memoized_dp(int i, int j) {
        if (i == 0 || j == 0) {
            return 0;
        }
@@ -129,14 +126,14 @@ public class Knapsack_memoized_dp {
        if (myDPTable[i][j] < 0) {
 
            // If current capacity is less than the weight of the previous item.
-           if (j < myWeight[i-1]) {
+           if (j < weight[i-1]) {
                // Since the previous item's weight is too much, set val and recursively call to the previous item.
                val = knapsack_memoized_dp(i-1, j);
            } else {
                // This is similar to the recurrence relation found on ((page 293) of Levitin)
                // Case when j - w_i >= 0
-               if (knapsack_memoized_dp(i-1, j) < myValue[i-1] + knapsack_memoized_dp(i-1, j-myWeight[i-1])) {
-                   val = myValue[i-1] + knapsack_memoized_dp(i-1, j-myWeight[i-1]);
+               if (knapsack_memoized_dp(i-1, j) < value[i-1] + knapsack_memoized_dp(i-1, j-weight[i-1])) {
+                   val = value[i-1] + knapsack_memoized_dp(i-1, j-weight[i-1]);
                } else { // Case when j - w_i < 0
                    val = knapsack_memoized_dp(i-1, j);
                }
@@ -151,9 +148,9 @@ public class Knapsack_memoized_dp {
      * Prints the DPTable out.
      */
     private void printTable() {
-        for (int i = 0; i <= myNumOfItems; i++) {
+        for (int i = 0; i <= n; i++) {
             System.out.println();
-            for (int j = 0; j <= myCapacity; j++) {
+            for (int j = 0; j <= W; j++) {
                 if (i > 0 && j > 0) {
                     System.out.print(myDPTable[i][j] + ", ");
                 } else {
