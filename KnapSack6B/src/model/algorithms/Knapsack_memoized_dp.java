@@ -1,6 +1,7 @@
 package model.algorithms;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @author Caleb Krauter
@@ -54,7 +55,9 @@ public class Knapsack_memoized_dp {
         myCapacity = theCapacity;
         myNumOfItems = theNumOfItems;
         myDPTable = theDPTable;
-
+        long endTime = 0;
+        long totalTime = 0;
+        long startTime = 0;
 
         // Initialize the DPTABLE. This is done here to reduce unnecessary method calls for performance benefits.
         // As the problem specifications (per the Levitin book (pg 295)) state
@@ -70,6 +73,8 @@ public class Knapsack_memoized_dp {
         int i = myNumOfItems;
         int j = myCapacity;
 
+        Date start = new Date();
+        startTime = start.getTime();
         // Call to the knapsack_memoized_dp method
         int maxVal = knapsack_memoized_dp(i, j);
 
@@ -93,6 +98,12 @@ public class Knapsack_memoized_dp {
         System.out.print("]");
         System.out.println();
         System.out.println("Knapsack_memoized_dp max value | " + maxVal);
+
+        Date finish = new Date();
+        endTime = finish.getTime();
+        totalTime += (endTime - startTime);
+        System.out.println("knapsack-memoized-dp took : " + totalTime + " ms");
+
         // Uncomment this block to see what the DPTable looks like
 //        printTable();
     }

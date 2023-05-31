@@ -1,6 +1,8 @@
 package model.algorithms;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @author Caleb Krauter
@@ -36,7 +38,19 @@ public class Knapsack_brute_force {
     public Knapsack_brute_force(ArrayList<int[]> theItems, int theCapacity, int theNumOfItems) {
         myItems = theItems;
         myCapacity = theCapacity;
+        long endTime = 0;
+        long totalTime = 0;
+        long startTime = 0;
+        Date start = new Date();
+        startTime = start.getTime();
+
         knapsack_brute_force();
+
+        Date finish = new Date();
+        endTime = finish.getTime();
+        totalTime += (endTime - startTime);
+        System.out.println("Knapsack_brute_force took : " + totalTime + " ms");
+        System.out.println();
 
     }
 
@@ -45,10 +59,12 @@ public class Knapsack_brute_force {
      * A brute force implementation of a solution to the 0-1 Knapsack problem.
      */
     private void knapsack_brute_force() {
+
         ArrayList<ArrayList<int[]>> powerSet = new ArrayList<>();
         powerSet.add(new ArrayList<>());
 
-        // We want to generate a power-set of all possible item combinations.
+
+//         We want to generate a power-set of all possible item combinations.
         for (int[] itemWithData : myItems) {
             ArrayList<ArrayList<int[]>> curItems = new ArrayList<>();
             for (ArrayList<int[]> subsetOfItems : powerSet) {
@@ -66,6 +82,7 @@ public class Knapsack_brute_force {
         int sumWeight;
         int sumValue;
         ArrayList<int[]> optimalSet = new ArrayList<>();
+
         for (ArrayList<int[]> subsetOfItems : powerSet) {
             sumWeight = 0;
             sumValue = 0;
@@ -87,12 +104,14 @@ public class Knapsack_brute_force {
 
         // We want to print out the indices we have found to be used to access the items of the optimal set.
         System.out.print("[");
-        for (int j = 0; j < optimalSet.size(); j++)
+        for (int j = 0; j < optimalSet.size(); j++) {
+
             for (int i = 0; i < myItems.size(); i++) {
                 if (optimalSet.get(j)[0] == myItems.get(i)[0] && optimalSet.get(j)[1] == myItems.get(i)[1]) {
                     System.out.print("index:  " + i + " ");
                 }
             }
+        }
         System.out.print("]");
         System.out.println();
 

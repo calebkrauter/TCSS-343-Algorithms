@@ -1,6 +1,7 @@
 package model.algorithms;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @author Caleb Krauter
@@ -52,7 +53,22 @@ public class Knapsack_bottom_up_dp {
         myCapacity = theCapacity;
         myNumOfItems = theNumOfItems;
         myDPTable = theDPTable;
+
+        long endTime = 0;
+        long totalTime = 0;
+        long startTime = 0;
+
+        Date start = new Date();
+        startTime = start.getTime();
         knapsack_bottom_up_dp();
+
+        Date finish = new Date();
+        endTime = finish.getTime();
+        totalTime += (endTime - startTime);
+        System.out.println("Knapsack_bottom_up_dp max value | " + myDPTable[myNumOfItems][myCapacity]);
+
+        System.out.println("Knapsack_bottom_up_dp took : " + totalTime + " ms");
+        System.out.println();
     }
 
     // "knapsack-bottom-up-dp" caused an error so changed the name to "knapsack_bottom_up_dp" to follow the assignment specs as closely as possible.
@@ -100,8 +116,6 @@ public class Knapsack_bottom_up_dp {
         System.out.print("]");
         System.out.println();
 
-
-        System.out.println("Knapsack_bottom_up_dp max value | " + myDPTable[myNumOfItems][myCapacity]);
 
     }
 

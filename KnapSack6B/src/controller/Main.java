@@ -4,7 +4,7 @@ import controller.AlgorithmsManager;
 /**
  * @author Caleb Krauter
  * @version 1.0
- * Collaborated with Parker on 6B.
+ * Collaborated with Parker and Anthony on 6B.
  */
 
 /**

@@ -1,4 +1,7 @@
 package model.algorithms;
+
+import java.util.Date;
+
 /**
  * @author Caleb Krauter
  * @version 1.0
@@ -8,7 +11,22 @@ package model.algorithms;
 public class KnapSackDPUnbounded01 {
 
     public KnapSackDPUnbounded01(int[] w, int[] v, int[][] dPTable, int CAPACTIY, int NUM_OF_ITEMS) {
+
+
+        long endTime = 0;
+        long totalTime = 0;
+        long startTime = 0;
+
+        Date start = new Date();
+        startTime = start.getTime();
+
         dPBottomUpUnbounded(w, v, dPTable, CAPACTIY, NUM_OF_ITEMS);
+
+        Date finish = new Date();
+        endTime = finish.getTime();
+        totalTime += (endTime - startTime);
+        System.out.println("KnapSack Dynamic Programming Unbounded 01 took : " + totalTime + " ms");
+        System.out.println();
     }
 
     private void dPBottomUpUnbounded(int[] w, int[] v, int[][] dPTable, int CAPACTIY, int NUM_OF_ITEMS) {
